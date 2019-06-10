@@ -1,0 +1,50 @@
+server:
+  port: ${TEST_APP_PORT:8080}
+  servlet:
+    context-path: ${TEST_APP_SERVLET_CONTEXT_PATH:/mamartin}
+  error:
+    include-stacktrace: always
+  compression:
+    enabled: ${TEST_APP_SERVLET_COMPRESION_ENABLED:true}
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  application:
+    name: Test mamartin
+  data:
+    rest:
+      base-path: ${TEST_APP_DATA_REST_BASE_PATH:/rest/api/v1}
+  jackson:
+    default-property-inclusion: non_absent
+
+---
+spring:
+  profiles: "dev"
+logging:
+  level:
+    root: warn
+    com.altran: debug
+
+---
+spring:
+  profiles: "des"
+logging:
+  level:
+    root: warn
+    com.altran: info
+
+---
+spring:
+  profiles: "pre"
+logging:
+  level:
+    root: warn
+    com.altran: info
+
+---
+spring:
+  profiles: "pro"
+logging:
+  level:
+    root: error
