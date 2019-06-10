@@ -1,7 +1,7 @@
 server:
   port: ${TEST_APP_PORT:8080}
   servlet:
-    context-path: ${TEST_APP_SERVLET_CONTEXT_PATH:/mamartin}
+    context-path: ${TEST_APP_SERVLET_CONTEXT_PATH:/rest/api/v1}
   error:
     include-stacktrace: always
   compression:
@@ -12,12 +12,10 @@ spring:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   application:
     name: Test mamartin
-  data:
-    rest:
-      base-path: ${TEST_APP_DATA_REST_BASE_PATH:/rest/api/v1}
   jackson:
     default-property-inclusion: non_absent
-
+  main:
+    web-application-type: reactive
 ---
 spring:
   profiles: "dev"
