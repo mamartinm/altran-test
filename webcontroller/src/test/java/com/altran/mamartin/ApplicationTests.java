@@ -1,4 +1,4 @@
-package com.altran.hiring.mamartin;
+package com.altran.mamartin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
