@@ -14,8 +14,18 @@ spring:
     name: Test mamartin
   jackson:
     default-property-inclusion: non_absent
-  main:
-    web-application-type: reactive
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+app:
+  urls:
+    data: https://opendata-ajuntament.barcelona.cat/data/api/3/action/package_search
+  server:
+    hostname: localhost
 ---
 spring:
   profiles: "dev"

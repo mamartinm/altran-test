@@ -18,25 +18,16 @@ import org.springframework.core.annotation.Order;
 public class CorsFilter implements Filter {
 
   private static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
-
   private static final String ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";
-
   private static final String ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age";
-
   private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
-
   private static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";
-
   private static final String VALUE_ALLOW_ALL = "*";
-
+  private static final String OPTIONS = "OPTIONS";
   private static final String VALUE_ALLOW_METHODS = "POST, PUT, GET, OPTIONS, DELETE";
-
   private static final String VALUE_MAX_AGE = "3600";
-
   private static final String VALUE_HEADERS = "*, X-Requested-With, Content-Type, Authorization, credential, X-XSRF-TOKEN, "
       + "Cache-Control, Pragma, Access-Control-Allow-Headers, Origin, Accept, Access-Cotrol-Request-Method, Access-Control-Request-Headers";
-
-  private static final String OPTIONS = "OPTIONS";
 
   @Override
   public void init(final FilterConfig fc) {

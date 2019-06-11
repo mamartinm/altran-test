@@ -5,8 +5,7 @@
   <property name="fileName" value="/logs/app/mamartin"/>
   <!-- @formatter:off -->
   <property name="patternFile" value="[%thread] %d{dd-MM-yy HH:mm:ss.SSS} %-5level %logger{0} %C{0}.%M:%L-%m %n"/>
-  <property name="patternConsole"
-    value="%boldGreen(%d{dd-MM-yy HH:mm:ss.SSS}) %highlight(%-5level) %boldYellow(%logger{0}) %boldMagenta(%C{0}.%M):%boldRed(%L)-%boldBlue(%m %n)"/>
+  <property name="patternConsole" value="%boldGreen(%d{dd-MM-yy HH:mm:ss.SSS}) %highlight(%-5level) %boldYellow(%logger{0}) %boldMagenta(%C{0}.%M):%boldRed(%L)-%boldBlue(%m %n)"/>
   <!-- @formatter:on -->
 
   <springProfile name="dev">
@@ -28,9 +27,6 @@
         <pattern>${patternConsole}</pattern>
       </encoder>
     </appender>
-    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
-      <level value="DEBUG"/>
-    </logger>
 
     <logger additivity="false" level="DEBUG" name="APP_LOGGER">
       <appender-ref ref="STDOUT"/>
