@@ -55,7 +55,6 @@ public class EntityService extends BaseService<Entity> {
     return entities;
   }
 
-  @Cacheable(ENTITY_FIND_ALL)
   public Page<Entity> findAllPaginated(Pageable pageable) {
     return getPagination(pageable, applicationContext.getBean(EntityService.class).findAll());
   }
