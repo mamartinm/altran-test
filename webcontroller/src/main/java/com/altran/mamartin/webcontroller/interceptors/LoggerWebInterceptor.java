@@ -11,9 +11,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 public class LoggerWebInterceptor extends CommonsRequestLoggingFilter {
 
   private static final String START_REQUEST_IN_MILES = "start_request_in_miles";
-
   private static final String TIME_ELAPSED = " --> Time Elapsed ";
-
   private static final String MILLISECONDS = " ms";
 
   @Override

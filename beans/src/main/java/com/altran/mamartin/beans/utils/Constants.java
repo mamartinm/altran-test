@@ -10,4 +10,6 @@ public class Constants {
 
   public static final StdDateFormat SDF = new StdDateFormat();
   public static final int TIMEOUT = (int) TimeUnit.SECONDS.toMillis(10);
+  public static final String ENTITY = "/entity";
+  public static final String SLASH = "/";
 }
