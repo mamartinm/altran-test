@@ -1,4 +1,4 @@
-package com.altran.mamartin.beans.exceptions;
+package com.altran.mamartin.webcontroller.exceptions;
 
 import com.altran.mamartin.beans.dto.ResultException;
 import lombok.AllArgsConstructor;
@@ -12,18 +12,17 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class BaseAppException extends RuntimeException {
 
-  private ResultException resultado;
-
-  private Exception exception;
+  protected ResultException result;
+  protected Exception exception;
 
   /**
-   * Constructor con un parametro String que contiene el mensaje del resultado.
+   * Constructor con un parametro String que contiene el mensaje del result.
    *
-   * @param mensaje Cadena con el mensaje que mostrara el resultado.
+   * @param mensaje Cadena con el mensaje que mostrara el result.
    */
   public BaseAppException(final String mensaje) {
     super(mensaje);
-    this.resultado = new ResultException(mensaje);
+    this.result = new ResultException(mensaje);
   }
 
   /**
@@ -33,7 +32,7 @@ public class BaseAppException extends RuntimeException {
    */
   public BaseAppException(final Exception e) {
     super(e);
-    this.resultado = new ResultException(e.getMessage());
+    this.result = new ResultException(e.getMessage());
     this.exception = e;
   }
 
