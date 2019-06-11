@@ -37,7 +37,7 @@ public class EntityResourceAssured {
     ResponseBody body = given()
         .contentType(ContentType.JSON)
         .get(URL + "/?page=2&size=3")
-        .then() mvn test -Prun - test - e2e
+        .then()
         .statusCode(HttpStatus.OK.value())
         .extract()
         .response()

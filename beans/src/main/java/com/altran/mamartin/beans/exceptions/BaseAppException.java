@@ -1,4 +1,4 @@
-package com.altran.mamartin.webcontroller.exceptions;
+package com.altran.mamartin.beans.exceptions;
 
 import com.altran.mamartin.beans.dto.ResultException;
 import lombok.AllArgsConstructor;

@@ -2,25 +2,12 @@
 <configuration scan="true">
 
   <property name="nameApp" value="mamartin"/>
-  <property name="fileName" value="/logs/app/mamartin"/>
   <!-- @formatter:off -->
-  <property name="patternFile" value="[%thread] %d{dd-MM-yy HH:mm:ss.SSS} %-5level %logger{0} %C{0}.%M:%L-%m %n"/>
   <property name="patternConsole" value="%boldGreen(%d{dd-MM-yy HH:mm:ss.SSS}) %highlight(%-5level) %boldYellow(%logger{0}) %boldMagenta(%C{0}.%M):%boldRed(%L)-%boldBlue(%m %n)"/>
   <!-- @formatter:on -->
 
   <springProfile name="dev">
 
-    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="FILE_APP">
-      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <charset>utf8</charset>
-        <pattern>${patternFile}</pattern>
-      </encoder>
-      <file>${fileName}.log</file>
-      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${fileName}.%d{yyyy-MM-dd}.log</fileNamePattern>
-        <maxHistory>30</maxHistory>
-      </rollingPolicy>
-    </appender>
     <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
         <charset>utf8</charset>
@@ -30,28 +17,14 @@
 
     <logger additivity="false" level="DEBUG" name="APP_LOGGER">
       <appender-ref ref="STDOUT"/>
-      <appender-ref ref="FILE_APP"/>
     </logger>
     <root level="WARN">
       <appender-ref ref="STDOUT"/>
-      <appender-ref ref="FILE_APP"/>
     </root>
 
   </springProfile>
 
   <springProfile name="des">
-
-    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="FILE_APP">
-      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <charset>utf8</charset>
-        <pattern>${patternFile}</pattern>
-      </encoder>
-      <file>${fileName}.log</file>
-      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${fileName}.%d{yyyy-MM-dd}.log</fileNamePattern>
-        <maxHistory>30</maxHistory>
-      </rollingPolicy>
-    </appender>
     <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
         <charset>utf8</charset>
@@ -61,24 +34,12 @@
 
     <root level="WARN">
       <appender-ref ref="STDOUT"/>
-      <appender-ref ref="FILE_APP"/>
     </root>
 
   </springProfile>
 
   <springProfile name="pre">
 
-    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="FILE_APP">
-      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <charset>utf8</charset>
-        <pattern>${patternFile}</pattern>
-      </encoder>
-      <file>${fileName}.log</file>
-      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${fileName}.%d{yyyy-MM-dd}.log</fileNamePattern>
-        <maxHistory>30</maxHistory>
-      </rollingPolicy>
-    </appender>
     <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
         <charset>utf8</charset>
@@ -87,28 +48,15 @@
     </appender>
     <logger additivity="false" level="DEBUG" name="APP_LOGGER">
       <appender-ref ref="STDOUT"/>
-      <appender-ref ref="FILE_APP"/>
     </logger>
     <root level="WARN">
       <appender-ref ref="STDOUT"/>
-      <appender-ref ref="FILE_APP"/>
     </root>
 
   </springProfile>
 
   <springProfile name="pro">
 
-    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="FILE_APP">
-      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <charset>utf8</charset>
-        <pattern>${patternFile}</pattern>
-      </encoder>
-      <file>${fileName}.log</file>
-      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${fileName}.%d{yyyy-MM-dd}.log</fileNamePattern>
-        <maxHistory>30</maxHistory>
-      </rollingPolicy>
-    </appender>
     <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
         <charset>utf8</charset>
@@ -117,11 +65,9 @@
     </appender>
     <logger additivity="false" level="DEBUG" name="APP_LOGGER">
       <appender-ref ref="STDOUT"/>
-      <appender-ref ref="FILE_APP"/>
     </logger>
     <root level="ERROR">
       <appender-ref ref="STDOUT"/>
-      <appender-ref ref="FILE_APP"/>
     </root>
 
   </springProfile>

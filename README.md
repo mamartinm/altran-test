@@ -58,7 +58,7 @@ Se hace uso de la guia de estilos de formateo de codigo de google, https://githu
 Servidor Git: https://github.com/mamartinm/altran-test
 
 
-## Arrancar servidor
+## Arrancar servidor java
 
 <code>java -jar webcontroller/target/webcontroller.jar</code>
 
@@ -67,4 +67,11 @@ Servidor Git: https://github.com/mamartinm/altran-test
 Una vez arrancado el servidor, ejecutar con maven:
 
 <code>mvn test -Prun-test-e2e</code>
+
+## Arrancar en docker
+
+Al hacer mvn package se crea la imagen mamartin/webcontroller
+
+Para arrancar el contenedor:
+<code> docker run -it -p 8080:8080 --rm mamartin/webcontroller:latest</code>
 
