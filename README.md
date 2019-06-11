@@ -20,13 +20,12 @@ Hace uso de maven para la compilacion y generación de entregables:
 
 * **mvn clean compile** para compilar
 * **mvn clean package** para generar el entregable en format jar
-* **mvn clean package -P war** para generar el entregable en format war
 
 ## Ejecucción
     
-En ambas versiones (jar/war) se puede ejecutar mediante:
+Se puede ejecutar mediante:
 
-**java -jar webcontroller/target/webcontroller.{jar/war}**
+**java -jar webcontroller/target/webcontroller.jar**
 
 ## Endpoints
 
@@ -49,4 +48,14 @@ Se hace uso de la guia de estilos de formateo de codigo de google, https://githu
 
 Git: https://github.com/mamartinm/altran-test
 
+
+## Arrancar servidor
+
+<code>mvn test -Prun-test-e2e</code>
+
+## Ejecutar Test
+
+Una vez arrancado el servidor, ejecutar:
+
+<code>mvn test -Prun-test-e2e</code>
 

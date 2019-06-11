@@ -1,7 +1,5 @@
 package com.altran.mamartin.model.services;
 
-import static org.springframework.security.config.Elements.HTTP;
-
 import com.altran.mamartin.beans.dto.Entity;
 import com.altran.mamartin.beans.utils.Constants;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -10,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @Slf4j
@@ -34,22 +30,12 @@ public class EntityService extends BaseService<Entity> {
   private static final String ENTITY_FIND_ALL = "entity_findAll";
   private static final String RESULT = "result";
   private static final String RESULTS = "results";
-  private static final UriComponentsBuilder URI_BUILDER = UriComponentsBuilder.newInstance().scheme(HTTP);
   private RestTemplate restTemplate;
   private ObjectMapper objectMapper;
   private CacheManager cacheManager;
 
   @Value("${app.urls.data}")
   private String urlData;
-
-  @Value("${app.server.hostname}")
-  private String hostname;
-
-  @Value("${server.port}")
-  private String port;
-
-  @Value("${server.servlet.context-path}")
-  private String path;
 
   @Autowired
   public EntityService(final RestTemplate restTemplate, final ObjectMapper objectMapper, final CacheManager cacheManager) {
@@ -58,18 +44,13 @@ public class EntityService extends BaseService<Entity> {
     this.cacheManager = cacheManager;
   }
 
-  @PostConstruct
-  private void postConstruct() {
-    URI_BUILDER.host(hostname).port(port).path(path).path(Constants.ENTITY).path(Constants.SLASH);
-  }
-
   @Cacheable(ENTITY_FIND_ALL)
   public List<Entity> findAll() {
     log.debug("Se crea cache");
     List<Map> result = (List<Map>) ((Map) restTemplate.getForObject(urlData, Map.class).get(RESULT)).get(RESULTS);
     List<Entity> entities = objectMapper.convertValue(result, TO_VALUE_TYPE_REF);
     for (Entity entity : entities) {
-      entity.setUri(URI_BUILDER.path(entity.getId()).build().encode().toUriString());
+      entity.setUri(getUriBuilder(Constants.ENTITY).path(entity.getId()).build().encode().toUriString());
     }
     return entities;
   }
