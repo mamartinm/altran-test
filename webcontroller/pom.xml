@@ -81,7 +81,33 @@
           </dependency>
         </dependencies>
       </plugin>
-
+      <!--      <plugin>
+              <groupId>io.fabric8</groupId>
+              <artifactId>docker-maven-plugin</artifactId>
+              <version>0.30.0</version>
+              <executions>
+                <execution>
+                  <id>build-image</id>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>build</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                <useColor>true</useColor>
+                <verbose>true</verbose>
+                <images>
+                  <image>
+                    <name>mamartin/${project.name}</name>
+                    <build>
+                      <contextDir>${project.basedir}</contextDir>
+                      <dockerFile>Dockerfile</dockerFile>
+                    </build>
+                  </image>
+                </images>
+              </configuration>
+            </plugin>-->
     </plugins>
   </build>
 
