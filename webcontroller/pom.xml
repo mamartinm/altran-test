@@ -20,22 +20,8 @@
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.9.2</version>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>2.9.2</version>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
-      <groupId>org.springframework.boot</groupId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -54,60 +40,32 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>com.spotify</groupId>
-        <artifactId>dockerfile-maven-plugin</artifactId>
-        <version>1.4.10</version>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.30.0</version>
         <executions>
           <execution>
-            <id>default</id>
+            <id>build-image</id>
+            <phase>install</phase>
             <goals>
               <goal>build</goal>
-              <goal>push</goal>
             </goals>
           </execution>
         </executions>
         <configuration>
-          <repository>mamartin/${project.artifactId}</repository>
-          <buildArgs>
-            <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-          </buildArgs>
+          <useColor>true</useColor>
+          <verbose>true</verbose>
+          <images>
+            <image>
+              <name>mamartin/${project.name}</name>
+              <build>
+                <contextDir>${project.basedir}</contextDir>
+                <dockerFile>Dockerfile</dockerFile>
+              </build>
+            </image>
+          </images>
         </configuration>
-        <dependencies>
-          <!-- To make this work on JDK 9+ -->
-          <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>javax.activation-api</artifactId>
-            <version>1.2.0</version>
-          </dependency>
-        </dependencies>
       </plugin>
-      <!--      <plugin>
-              <groupId>io.fabric8</groupId>
-              <artifactId>docker-maven-plugin</artifactId>
-              <version>0.30.0</version>
-              <executions>
-                <execution>
-                  <id>build-image</id>
-                  <phase>package</phase>
-                  <goals>
-                    <goal>build</goal>
-                  </goals>
-                </execution>
-              </executions>
-              <configuration>
-                <useColor>true</useColor>
-                <verbose>true</verbose>
-                <images>
-                  <image>
-                    <name>mamartin/${project.name}</name>
-                    <build>
-                      <contextDir>${project.basedir}</contextDir>
-                      <dockerFile>Dockerfile</dockerFile>
-                    </build>
-                  </image>
-                </images>
-              </configuration>
-            </plugin>-->
     </plugins>
   </build>
 

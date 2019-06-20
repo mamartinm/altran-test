@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
@@ -45,24 +47,36 @@ public class EntityService extends BaseService<Entity> {
   }
 
   @Cacheable(ENTITY_FIND_ALL)
-  public List<Entity> findAll() {
+  public Flux<Entity> findAll() {
     log.debug("Se crea cache");
-    List<Map> result = (List<Map>) ((Map) restTemplate.getForObject(urlData, Map.class).get(RESULT)).get(RESULTS);
-    List<Entity> entities = objectMapper.convertValue(result, TO_VALUE_TYPE_REF);
-    for (Entity entity : entities) {
-      entity.setUri(getUriBuilder(Constants.ENTITY).path(entity.getId()).build().encode().toUriString());
-    }
-    return entities;
+    Mono<Map> resultWebClient = WebClient.create(urlData).get().retrieve().bodyToMono(Map.class);
+    return resultWebClient.map(o -> {
+      Object mapResult = ((Map) o.get(RESULT)).get(RESULTS);
+      List<Entity> listEntities = objectMapper.convertValue(mapResult, TO_VALUE_TYPE_REF);
+      for (Entity entity : listEntities) {
+        entity.setUri(getUriBuilder(Constants.ENTITY).path(entity.getId()).build().encode().toUriString());
+      }
+      return listEntities;
+    }).flatMapMany(Flux::fromIterable);
   }
 
-  public Page<Entity> findAllPaginated(Pageable pageable) {
-    return getPagination(pageable, applicationContext.getBean(EntityService.class).findAll());
+  public Mono<Page> findAllPaginated(Pageable pageable) {
+    return applicationContext.getBean(EntityService.class).findAll()
+        .collectList()
+        .flatMap(tuple -> {
+          Page<Entity> pagination = getPagination(pageable, tuple);
+          return Mono.just(pagination);
+        });
   }
 
-  public Optional<Entity> findById(String id) {
-    return applicationContext.getBean(EntityService.class).findAll().stream()
+  private Mono<Page<Entity>> getJust(Pageable pageable, List<Entity> result) {
+    return Mono.just(getPagination(pageable, result));
+  }
+
+  public Mono<Entity> findById(String id) {
+    return applicationContext.getBean(EntityService.class).findAll()
         .filter(entity -> entity.getId().equals(id))
-        .findAny();
+        .next();
   }
 
   @Scheduled(fixedRate = TIME_TO_RELOAD_CACHE)
