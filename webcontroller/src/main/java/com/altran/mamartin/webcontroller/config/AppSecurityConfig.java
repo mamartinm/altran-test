@@ -1,5 +1,7 @@
 package com.altran.mamartin.webcontroller.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -12,23 +14,16 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class AppSecurityConfig {
 
-  private static final String[] IGNORE_PATHS = {
-      "/entity/**",
-      "/v2/api-docs",
-      "/swagger-ui.html",
-      "/swagger.json",
-      "/swagger-resources/**",
-      "/configuration/security/**",
-      "/configuration/ui",
-      "/webjars/**",
-      "/actuator/**",
-      "/favicon.ico"
-  };
+  private static final String ALL = "/**";
+
+  @Autowired
+  private ServerProperties serverProperties;
 
   @Bean
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-    return http.authorizeExchange()
-        .pathMatchers(IGNORE_PATHS).permitAll()
+    String contextPath = serverProperties.getServlet().getContextPath();
+    return http
+        .authorizeExchange().pathMatchers(contextPath + ALL).permitAll()
         .anyExchange().authenticated()
         .and().build();
   }
