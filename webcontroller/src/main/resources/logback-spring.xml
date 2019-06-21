@@ -3,7 +3,7 @@
 
   <property name="nameApp" value="mamartin"/>
   <!-- @formatter:off -->
-  <property name="patternConsole" value="%boldGreen(%d{dd-MM-yy HH:mm:ss.SSS}) %highlight(%-5level) %boldYellow(%logger{0}) %boldMagenta(%C{0}.%M):%boldRed(%L)-%boldBlue(%m %n)"/>
+  <property name="patternConsole" value="%boldMagenta(%thread) %boldGreen(%d{dd-MM-yy HH:mm:ss.SSS}) %highlight(%-5level) %boldYellow(%logger{0}) %boldMagenta(%C{0}.%M):%boldRed(%L)-%boldBlue(%m %n)"/>
   <!-- @formatter:on -->
 
   <springProfile name="dev">
