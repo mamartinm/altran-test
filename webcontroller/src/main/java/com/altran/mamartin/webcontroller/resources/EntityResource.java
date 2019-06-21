@@ -52,4 +52,11 @@ public class EntityResource {
         .map(ResponseEntity::ok)
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
+
+  @GetMapping("id/{id}")
+  public Mono<Entity> findById2(@PathVariable("id") String id) {
+    log.debug("paso");
+    throw new IllegalArgumentException("peta");
+    //return entityService.findById(id);
+  }
 }

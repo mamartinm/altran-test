@@ -1,5 +1,6 @@
 package com.altran.mamartin.webcontroller.config;
 
+import com.altran.mamartin.beans.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class AppSecurityConfig {
 
-  private static final String ALL = "/**";
 
   @Autowired
   private ServerProperties serverProperties;
@@ -23,7 +23,7 @@ public class AppSecurityConfig {
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     String contextPath = serverProperties.getServlet().getContextPath();
     return http
-        .authorizeExchange().pathMatchers(contextPath + ALL).permitAll()
+        .authorizeExchange().pathMatchers(contextPath + Constants.PATH_PATTERN).permitAll()
         .anyExchange().authenticated()
         .and().build();
   }
