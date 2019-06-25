@@ -29,13 +29,13 @@ public class GenericExceptionHandler extends ResponseEntityExceptionHandler {
   private static final String HA_OCURRIDO_UN_ERROR = "Ha ocurrido un error";
 
   @ExceptionHandler(value = AppNotFoundException.class)
-  ResponseEntity<String> handleAppNotFound(AppNotFoundException e) throws JsonProcessingException {
+  public ResponseEntity<String> handleAppNotFound(AppNotFoundException e) throws JsonProcessingException {
     log.warn("La peticion no ha devuelto resultados");
     return new ResponseEntity<>(exceptionToJson(NO_EXISTEN_RESULTADOS, e), new HttpHeaders(), HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(value = ResourceAccessException.class)
-  ResponseEntity<String> handleAppTimeout(ResourceAccessException e) throws JsonProcessingException {
+  public ResponseEntity<String> handleAppTimeout(ResourceAccessException e) throws JsonProcessingException {
     log.warn("La peticion tarda demasiado");
     return new ResponseEntity<>(exceptionToJson(SE_HA_SUPERADO_EL_TIEMPO_DE_CONEXION, e), new HttpHeaders(), HttpStatus.REQUEST_TIMEOUT);
   }

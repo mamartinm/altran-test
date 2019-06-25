@@ -26,7 +26,6 @@ import org.springframework.web.context.request.async.DeferredResult;
 @RequestMapping(Constants.ENTITY)
 public class EntityResource {
 
-
   private EntityService entityService;
 
   @Autowired
@@ -38,21 +37,28 @@ public class EntityResource {
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "No existen resultados")})
   @GetMapping("/all")
   public DeferredResult<ResponseEntity<List<Entity>>> findAll() {
-    log.debug("Empieza");
     DeferredResult<ResponseEntity<List<Entity>>> result = new DeferredResult<>();
+    prueba();
     entityService.findAll()
         .whenCompleteAsync((entities, executor) -> {
+          log.debug("Empieza");
               if (entities.isEmpty()) {
                 result.setResult(ResponseEntity.notFound().build());
               } else {
                 result.setResult(ResponseEntity.ok(entities));
               }
+          log.debug("Termina");
             }
         )
         .handleAsync((entities, throwable) ->
             result.setResult(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build())
         );
     return result;
+  }
+
+  private String prueba() {
+    log.debug("prueba");
+    return "prueba";
   }
 
   @ApiOperation(httpMethod = "GET", value = "Método que devuelve todos los resultados paginados", response = List.class, responseContainer = "List<Entity>")
@@ -64,7 +70,6 @@ public class EntityResource {
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "No existen resultados")})
   @GetMapping
   public DeferredResult<ResponseEntity<Page<Entity>>> findAllPaginated(Pageable page) {
-    log.debug("paso");
     DeferredResult<ResponseEntity<Page<Entity>>> result = new DeferredResult<>();
     entityService.findAllPaginated(page)
         .whenCompleteAsync((pageResult, executor) -> {
@@ -88,7 +93,6 @@ public class EntityResource {
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "No existen resultados")})
   @GetMapping("/{id}")
   public DeferredResult<ResponseEntity<Entity>> findById(@PathVariable("id") String id) {
-    log.debug("paso");
     DeferredResult<ResponseEntity<Entity>> result = new DeferredResult<>();
     entityService.findById(id)
         .whenCompleteAsync((entity, executor) -> {

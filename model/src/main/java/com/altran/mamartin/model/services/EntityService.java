@@ -16,8 +16,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-@Service
 @Slf4j
+@Service
 public class EntityService extends BaseService<Entity> {
 
   private static final int TIME_TO_RELOAD_CACHE = 30000;
@@ -34,21 +34,19 @@ public class EntityService extends BaseService<Entity> {
 
   @Async
   public CompletableFuture<List<Entity>> findAll() {
-    log.debug("Paso");
     return CompletableFuture.completedFuture(applicationContext.getBean(EntityService.class).createEntitiesFromDataSource());
   }
 
   @Async
   public CompletableFuture<Page<Entity>> findAllPaginated(Pageable pageable) {
-    log.debug("Paso");
     List<Entity> entities = applicationContext.getBean(EntityService.class).createEntitiesFromDataSource();
     return CompletableFuture.completedFuture(getPagination(pageable, entities));
   }
 
   @Async
   public CompletableFuture<Optional<Entity>> findById(String id) {
-    log.debug("Paso");
-    Optional<Entity> byId = applicationContext.getBean(EntityService.class).createEntitiesFromDataSource().stream()
+    List<Entity> entitiesFromDataSource = applicationContext.getBean(EntityService.class).createEntitiesFromDataSource();
+    Optional<Entity> byId = entitiesFromDataSource.stream()
         .filter(entity -> entity.getId().equals(id))
         .findAny();
     return CompletableFuture.completedFuture(byId);
