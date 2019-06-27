@@ -6,6 +6,7 @@ import com.altran.mamartin.beans.dto.Entity;
 import com.altran.mamartin.beans.utils.Constants;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -16,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Repository
-public class EntityRepository {
+public class EntityRepository implements Serializable {
 
   // @formatter:off
   private static final TypeReference<List<Entity>> TO_VALUE_TYPE_REF = new TypeReference<>() {  };

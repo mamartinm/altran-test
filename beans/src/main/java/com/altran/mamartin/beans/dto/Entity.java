@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Entity {
+public class Entity implements RestConvertible {
 
   private String id;
   private String code;

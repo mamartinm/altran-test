@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,41 +23,19 @@ import org.springframework.web.context.request.async.DeferredResult;
 @Slf4j
 @RestController
 @RequestMapping(Constants.ENTITY)
-public class EntityResource {
-
-  private EntityService entityService;
+public class EntityResource extends BaseResource<Entity, EntityService> {
 
   @Autowired
-  public EntityResource(final EntityService entityService) {
-    this.entityService = entityService;
+  public EntityResource(final EntityService service) {
+    super(service);
   }
 
   @ApiOperation(httpMethod = "GET", value = "Método que devuelve todos los resultados", response = List.class, responseContainer = "List<Entity>")
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "No existen resultados")})
   @GetMapping("/all")
   public DeferredResult<ResponseEntity<List<Entity>>> findAll() {
-    DeferredResult<ResponseEntity<List<Entity>>> result = new DeferredResult<>();
-    prueba();
-    entityService.findAll()
-        .whenCompleteAsync((entities, executor) -> {
-          log.debug("Empieza");
-              if (entities.isEmpty()) {
-                result.setResult(ResponseEntity.notFound().build());
-              } else {
-                result.setResult(ResponseEntity.ok(entities));
-              }
-          log.debug("Termina");
-            }
-        )
-        .handleAsync((entities, throwable) ->
-            result.setResult(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build())
-        );
-    return result;
-  }
-
-  private String prueba() {
-    log.debug("prueba");
-    return "prueba";
+    log.debug("paso");
+    return findAllWhenCompleteAsync(service.findAll());
   }
 
   @ApiOperation(httpMethod = "GET", value = "Método que devuelve todos los resultados paginados", response = List.class, responseContainer = "List<Entity>")
@@ -70,20 +47,8 @@ public class EntityResource {
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "No existen resultados")})
   @GetMapping
   public DeferredResult<ResponseEntity<Page<Entity>>> findAllPaginated(Pageable page) {
-    DeferredResult<ResponseEntity<Page<Entity>>> result = new DeferredResult<>();
-    entityService.findAllPaginated(page)
-        .whenCompleteAsync((pageResult, executor) -> {
-              if (pageResult.isEmpty()) {
-                result.setResult(ResponseEntity.notFound().build());
-              } else {
-                result.setResult(ResponseEntity.ok(pageResult));
-              }
-            }
-        )
-        .handleAsync((entities, throwable) ->
-            result.setResult(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build())
-        );
-    return result;
+    log.debug("paso");
+    return findAllPaginatedWhenCompleteAsync(service.findAllPaginated(page));
   }
 
   @ApiOperation(httpMethod = "GET", value = "Método que devuelve un unico resultado", response = Entity.class, responseContainer = "Entity")
@@ -93,19 +58,7 @@ public class EntityResource {
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "No existen resultados")})
   @GetMapping("/{id}")
   public DeferredResult<ResponseEntity<Entity>> findById(@PathVariable("id") String id) {
-    DeferredResult<ResponseEntity<Entity>> result = new DeferredResult<>();
-    entityService.findById(id)
-        .whenCompleteAsync((entity, executor) -> {
-              if (entity.isEmpty()) {
-                result.setResult(ResponseEntity.notFound().build());
-              } else {
-                result.setResult(ResponseEntity.ok(entity.get()));
-              }
-            }
-        )
-        .handleAsync((entity, throwable) ->
-            result.setResult(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build())
-        );
-    return result;
+    log.debug("paso");
+    return findByIdWhenCompleteAsync(service.findById(id));
   }
 }
